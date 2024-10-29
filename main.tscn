@@ -1,0 +1,410 @@
+[gd_scene load_steps=21 format=3 uid="uid://c54p8ngl4whpf"]
+
+[ext_resource type="Script" path="res://game.gd" id="1_egsob"]
+[ext_resource type="Texture2D" uid="uid://bx17msaqr8814" path="res://MicroJam_10_28_24_button_2.png" id="2_u7j5i"]
+[ext_resource type="Texture2D" uid="uid://bfwwv2vi55qub" path="res://MicroJam_10_28_24_comboBar.png" id="3_ky6if"]
+[ext_resource type="Texture2D" uid="uid://fyr3xk2t4fv3" path="res://MicroJam_10_28_24_fire.png" id="4_eggph"]
+[ext_resource type="Texture2D" uid="uid://btp5p5iguhxwu" path="res://MicroJam_10_28_24_background.png" id="5_d3it6"]
+[ext_resource type="Texture2D" uid="uid://cvv0nn2fvtvhb" path="res://circle.png" id="6_pyi5h"]
+[ext_resource type="Texture2D" uid="uid://jgsyo5bokbge" path="res://MicroJam_10_28_24_ghost.png" id="6_wpail"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2oj0n"]
+atlas = ExtResource("6_wpail")
+region = Rect2(0, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6gaqx"]
+atlas = ExtResource("6_wpail")
+region = Rect2(50, 0, 50, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s6vll"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2oj0n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6gaqx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[sub_resource type="Theme" id="Theme_ppsp6"]
+Button/styles/pressed = null
+
+[sub_resource type="Curve" id="Curve_mt5ol"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_7lqad"]
+curve = SubResource("Curve_mt5ol")
+
+[sub_resource type="Curve" id="Curve_ob0sr"]
+_data = [Vector2(0, 0.511306), 0.0, 1.61694, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_fu6u1"]
+curve = SubResource("Curve_ob0sr")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qrias"]
+lifetime_randomness = 0.25
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(10, 0, 0)
+emission_shape = 3
+emission_box_extents = Vector3(150, 0, 1)
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = 86.02
+initial_velocity_max = 86.02
+radial_velocity_min = -26.88
+radial_velocity_max = 69.89
+gravity = Vector3(0, 0, 0)
+scale_min = 5.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_fu6u1")
+alpha_curve = SubResource("CurveTexture_7lqad")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_agwq8"]
+atlas = ExtResource("4_eggph")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_py7bh"]
+atlas = ExtResource("4_eggph")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0g1iy"]
+atlas = ExtResource("4_eggph")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_22pi0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_agwq8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_py7bh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0g1iy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_egsob")
+
+[node name="ComboMeter" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -500.0
+offset_top = 30.0
+offset_right = 500.0
+offset_bottom = 80.0
+grow_horizontal = 2
+
+[node name="Fill" type="ColorRect" parent="ComboMeter"]
+z_index = 1
+layout_mode = 1
+offset_bottom = 50.0
+color = Color(1, 0.847059, 0, 1)
+
+[node name="Background" type="ColorRect" parent="ComboMeter"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="ComboMeter"]
+z_index = 4
+texture = ExtResource("3_ky6if")
+centered = false
+
+[node name="ComboText" type="RichTextLabel" parent="."]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -263.0
+offset_top = 75.0
+offset_right = 263.0
+offset_bottom = 144.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[outline_color=white][outline_size=10][center][font_size=50][color=black]x0"
+fit_content = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -20
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_d3it6")
+stretch_mode = 1
+
+[node name="GhostA" type="Button" parent="."]
+z_index = 5
+layout_mode = 0
+offset_top = 700.0
+offset_right = 80.0
+offset_bottom = 780.0
+mouse_default_cursor_shape = 3
+action_mode = 0
+button_mask = 7
+keep_pressed_outside = true
+flat = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="GhostA"]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_s6vll")
+frame_progress = 0.93687
+centered = false
+
+[node name="GhostB" type="Button" parent="."]
+z_index = 5
+layout_mode = 0
+offset_left = 1100.0
+offset_top = 700.0
+offset_right = 1180.0
+offset_bottom = 780.0
+mouse_default_cursor_shape = 3
+action_mode = 0
+button_mask = 7
+keep_pressed_outside = true
+flat = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="GhostB"]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_s6vll")
+frame_progress = 0.0335812
+centered = false
+flip_h = true
+
+[node name="WinScreen" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="WinScreen"]
+z_index = 17
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_d3it6")
+stretch_mode = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="WinScreen"]
+z_index = 23
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "[center][font_size=100][color=black]YOU WIN!!!!
+:3"
+
+[node name="ButtonController" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="Button" type="Button" parent="ButtonController"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 406.0
+offset_top = 279.0
+offset_right = 706.0
+offset_bottom = 329.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_ppsp6")
+action_mode = 0
+
+[node name="ColorRect" type="ColorRect" parent="ButtonController/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="ButtonController/Button"]
+texture = ExtResource("2_u7j5i")
+centered = false
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="ButtonController/Button"]
+z_index = -1
+position = Vector2(150, 25)
+emitting = false
+amount = 200
+process_material = SubResource("ParticleProcessMaterial_qrias")
+texture = ExtResource("6_pyi5h")
+
+[node name="FireA" type="Control" parent="ButtonController"]
+anchors_preset = 0
+offset_left = 427.0
+offset_top = 250.0
+offset_right = 477.0
+offset_bottom = 300.0
+mouse_filter = 2
+
+[node name="Button" type="Button" parent="ButtonController/FireA"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 3
+action_mode = 0
+button_mask = 7
+keep_pressed_outside = true
+flat = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ButtonController/FireA/Button"]
+scale = Vector2(1.563, 1.563)
+sprite_frames = SubResource("SpriteFrames_22pi0")
+frame_progress = 0.40112
+centered = false
+
+[node name="FireD" type="Control" parent="ButtonController"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 677.0
+offset_top = 250.0
+offset_right = 727.0
+offset_bottom = 300.0
+mouse_filter = 2
+
+[node name="Button" type="Button" parent="ButtonController/FireD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 3
+action_mode = 0
+button_mask = 7
+keep_pressed_outside = true
+flat = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ButtonController/FireD/Button"]
+scale = Vector2(1.563, 1.563)
+sprite_frames = SubResource("SpriteFrames_22pi0")
+frame_progress = 0.89428
+centered = false
+
+[node name="FireB" type="Control" parent="ButtonController"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 501.0
+offset_top = 250.0
+offset_right = 551.0
+offset_bottom = 300.0
+mouse_filter = 2
+
+[node name="Button" type="Button" parent="ButtonController/FireB"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 3
+action_mode = 0
+button_mask = 7
+keep_pressed_outside = true
+flat = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ButtonController/FireB/Button"]
+scale = Vector2(1.563, 1.563)
+sprite_frames = SubResource("SpriteFrames_22pi0")
+frame_progress = 0.686671
+centered = false
+
+[node name="FireC" type="Control" parent="ButtonController"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 602.0
+offset_top = 250.0
+offset_right = 652.0
+offset_bottom = 300.0
+mouse_filter = 2
+
+[node name="Button" type="Button" parent="ButtonController/FireC"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 3
+action_mode = 0
+button_mask = 7
+keep_pressed_outside = true
+flat = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ButtonController/FireC/Button"]
+scale = Vector2(1.563, 1.563)
+sprite_frames = SubResource("SpriteFrames_22pi0")
+frame_progress = 0.711806
+centered = false
+
+[connection signal="pressed" from="GhostA" to="." method="_on_ghost_a_pressed"]
+[connection signal="pressed" from="GhostB" to="." method="_on_ghost_b_pressed"]
+[connection signal="pressed" from="ButtonController/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="ButtonController/FireA/Button" to="." method="_on_fireA_pressed"]
+[connection signal="pressed" from="ButtonController/FireD/Button" to="." method="_on_fireD_pressed"]
+[connection signal="pressed" from="ButtonController/FireB/Button" to="." method="_on_fireB_pressed"]
+[connection signal="pressed" from="ButtonController/FireC/Button" to="." method="_on_fireC_pressed"]

@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://c1yrvvhsqcv3v"]
+
+[sub_resource type="Curve" id="Curve_3dhpf"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.506622, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_hjaja"]
+curve = SubResource("Curve_3dhpf")
+
+[sub_resource type="Gradient" id="Gradient_x5vnf"]
+colors = PackedColorArray(0, 0, 0, 1, 0.321728, 0.321728, 0.321728, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_502t2"]
+gradient = SubResource("Gradient_x5vnf")
+
+[sub_resource type="Curve" id="Curve_66rhd"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.175497, 1), 0.0, 0.0, 0, 0, Vector2(0.63245, 0.937535), 0.0, 0.0, 0, 0, Vector2(0.910596, 0.650933), 0.0, 0.0, 0, 0, Vector2(0.966887, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_js2t2"]
+curve = SubResource("Curve_66rhd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_02lw2"]
+lifetime_randomness = 0.25
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, 1, 0)
+emission_shape_scale = Vector3(1, 2, 1)
+emission_shape = 1
+emission_sphere_radius = 15.0
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 64.52
+initial_velocity_max = 96.78
+gravity = Vector3(0, -98, 0)
+tangential_accel_min = -22.04
+tangential_accel_max = 22.58
+scale_min = 9.0
+scale_max = 9.0
+scale_curve = SubResource("CurveTexture_js2t2")
+color_initial_ramp = SubResource("GradientTexture1D_502t2")
+alpha_curve = SubResource("CurveTexture_hjaja")
+
+[node name="Smoke" type="GPUParticles2D"]
+emitting = false
+amount = 75
+process_material = SubResource("ParticleProcessMaterial_02lw2")
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+visibility_rect = Rect2(-100, -200, 200, 300)
