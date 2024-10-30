@@ -60,11 +60,15 @@ var prev_level: String = ""
 
 @onready var color_heat_gradient: Gradient = preload("res://color_heat_gradient.tres").gradient
 
+@onready var scrolling_background: TextureRect = $ScrollingBackground
 @onready var loading_screen: Control = $Loading
 
+@onready var gunGhostA: Node = $GunGhostA
+@onready var gunGhostB: Node = $GunGhostB
+@onready var gunA: Node = $GunGhostA/AnimatedSprite2D/Gun
+@onready var gunB: Node = $GunGhostB/AnimatedSprite2D/Gun
+
 func _ready() -> void:
-	loading_screen.show()
-	loading_screen.mouse_filter = Control.MOUSE_FILTER_STOP
 	
 	fireA.hide()
 	fireB.hide()
@@ -81,8 +85,14 @@ func _ready() -> void:
 	ghostA.get_child(0).play("default")
 	ghostB.get_child(0).play("default")
 	
-	var particle_load_pos = global_position + Vector2(size.x / 2, size.y / 2)
+	if OS.get_name() == "Web":
+		preload_particles()
 	
+
+func preload_particles() -> void:
+	loading_screen.show()
+	loading_screen.mouse_filter = Control.MOUSE_FILTER_STOP
+	var particle_load_pos = global_position + Vector2(size.x / 2, size.y / 2)
 	var new_click_particles: GPUParticles2D = click_particles.instantiate()
 	add_child(new_click_particles)
 	new_click_particles.global_position = particle_load_pos
@@ -161,6 +171,8 @@ var time_since_new_combo_level_achieved: float = 0.0
 
 func _physics_process(delta: float) -> void:
 	
+	var cursor_pos := get_viewport().get_mouse_position()
+	
 	if fireA.visible or fireB.visible or fireC.visible or fireD.visible:
 		button.mouse_default_cursor_shape = Control.CURSOR_FORBIDDEN
 	else:
@@ -190,8 +202,16 @@ func _physics_process(delta: float) -> void:
 	else:
 		button_steam_particles.emitting = false
 	
+	if combo > 0:
+		var scroll = -50
+		scroll -= int(combo / 50.0) * 25
+		scrolling_background.material.set_shader_parameter("motion", Vector2(0, scroll))
+	else:
+		scrolling_background.material.set_shader_parameter("motion", Vector2(0, 0))
+	
 	if combo < 50:
 		combo_level_text.text = ""
+		prev_level = ""
 		time_since_new_combo_level_achieved = 0.0
 	else:
 		for level in combo_levels:
@@ -254,6 +274,9 @@ func _physics_process(delta: float) -> void:
 		ghostB.hide()
 		ghostB.global_position = ghostPosB
 		ghost_jumpscare_sounds_player.play()
+	
+	gunA.look_at(cursor_pos)
+	gunB.look_at(cursor_pos)
 
 func _process(delta: float) -> void:
 	if combo > 0:

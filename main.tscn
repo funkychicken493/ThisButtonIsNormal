@@ -1,13 +1,16 @@
-[gd_scene load_steps=30 format=3 uid="uid://c54p8ngl4whpf"]
+[gd_scene load_steps=40 format=3 uid="uid://c54p8ngl4whpf"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_egsob"]
 [ext_resource type="Texture2D" uid="uid://bx17msaqr8814" path="res://MicroJam_10_28_24_button_2.png" id="2_u7j5i"]
 [ext_resource type="Texture2D" uid="uid://bfwwv2vi55qub" path="res://MicroJam_10_28_24_comboBar.png" id="3_ky6if"]
 [ext_resource type="Theme" uid="uid://bsyfxb417c82e" path="res://main_theme.tres" id="3_l442o"]
+[ext_resource type="Shader" path="res://scrolling_texture.gdshader" id="4_axcyk"]
 [ext_resource type="Texture2D" uid="uid://fyr3xk2t4fv3" path="res://MicroJam_10_28_24_fire.png" id="4_eggph"]
 [ext_resource type="Texture2D" uid="uid://btp5p5iguhxwu" path="res://MicroJam_10_28_24_background.png" id="5_d3it6"]
+[ext_resource type="Texture2D" uid="uid://bj7m7v52uuj8" path="res://MicroJam_10_28_24_ghost2.png" id="5_y3jp6"]
 [ext_resource type="Texture2D" uid="uid://cvv0nn2fvtvhb" path="res://circle.png" id="6_pyi5h"]
 [ext_resource type="Texture2D" uid="uid://jgsyo5bokbge" path="res://MicroJam_10_28_24_ghost.png" id="6_wpail"]
+[ext_resource type="Texture2D" uid="uid://dkuqg55l0jkdt" path="res://gunplaceholder.png" id="7_66f52"]
 [ext_resource type="AudioStream" uid="uid://ceskgs1rlt0ov" path="res://audio/click1.wav" id="9_hnfs1"]
 [ext_resource type="AudioStream" uid="uid://b7pgcoqm0h2c1" path="res://audio/click2.wav" id="10_vccko"]
 [ext_resource type="AudioStream" uid="uid://bpavjtpe2bu5b" path="res://audio/click3.wav" id="11_8t6hn"]
@@ -16,26 +19,79 @@
 [ext_resource type="AudioStream" uid="uid://bqpk1fmqok57e" path="res://audio/extinguish.wav" id="14_fyuya"]
 [ext_resource type="AudioStream" uid="uid://hegjgy8mmedo" path="res://audio/ghost_jumpscare.wav" id="15_omqmi"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2oj0n"]
-atlas = ExtResource("6_wpail")
-region = Rect2(0, 0, 50, 50)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vb3wc"]
+shader = ExtResource("4_axcyk")
+shader_parameter/motion = Vector2(0, 0)
+shader_parameter/scale = 1.0
+shader_parameter/offset = Vector2(0, 0)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6gaqx"]
-atlas = ExtResource("6_wpail")
-region = Rect2(50, 0, 50, 50)
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhmnu"]
+atlas = ExtResource("5_y3jp6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1rbb8"]
+atlas = ExtResource("5_y3jp6")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vk0ej"]
+atlas = ExtResource("5_y3jp6")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3awsh"]
+atlas = ExtResource("5_y3jp6")
+region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_s6vll"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_2oj0n")
+"texture": SubResource("AtlasTexture_rhmnu")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6gaqx")
+"texture": SubResource("AtlasTexture_1rbb8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vk0ej")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3awsh")
 }],
 "loop": true,
 "name": &"default",
-"speed": 6.0
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_et14w"]
+atlas = ExtResource("6_wpail")
+region = Rect2(0, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7lse"]
+atlas = ExtResource("6_wpail")
+region = Rect2(50, 0, 50, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cbgn8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_et14w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7lse")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fggmw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_66f52")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
 }]
 
 [sub_resource type="Theme" id="Theme_ppsp6"]
@@ -179,8 +235,10 @@ bbcode_enabled = true
 text = "[outline_color=white][outline_size=10][center][font_size=100][color=black]x0"
 fit_content = true
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="ScrollingBackground" type="TextureRect" parent="."]
 z_index = -20
+texture_filter = 1
+material = SubResource("ShaderMaterial_vb3wc")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -204,9 +262,9 @@ keep_pressed_outside = true
 flat = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="GhostA"]
-scale = Vector2(1.5, 1.5)
+scale = Vector2(2.5, 2.5)
 sprite_frames = SubResource("SpriteFrames_s6vll")
-frame_progress = 0.155868
+autoplay = "default"
 centered = false
 
 [node name="GhostB" type="Button" parent="."]
@@ -223,12 +281,66 @@ keep_pressed_outside = true
 flat = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="GhostB"]
-position = Vector2(-22, -22)
-scale = Vector2(1.5, 1.5)
+scale = Vector2(2.5, 2.5)
 sprite_frames = SubResource("SpriteFrames_s6vll")
-frame_progress = 0.969053
+autoplay = "default"
 centered = false
 flip_h = true
+
+[node name="GunGhostA" type="Button" parent="."]
+z_index = 5
+layout_mode = 0
+offset_left = 47.0
+offset_top = 309.0
+offset_right = 127.0
+offset_bottom = 389.0
+mouse_default_cursor_shape = 3
+action_mode = 0
+button_mask = 7
+keep_pressed_outside = true
+flat = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="GunGhostA"]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_cbgn8")
+autoplay = "default"
+centered = false
+
+[node name="Gun" type="AnimatedSprite2D" parent="GunGhostA/AnimatedSprite2D"]
+position = Vector2(44, -10)
+scale = Vector2(5.33333, 5.33333)
+sprite_frames = SubResource("SpriteFrames_fggmw")
+
+[node name="BulletSpawnPoint" type="Node2D" parent="GunGhostA/AnimatedSprite2D/Gun"]
+position = Vector2(8, 0.125)
+
+[node name="GunGhostB" type="Button" parent="."]
+z_index = 5
+layout_mode = 0
+offset_left = 1039.0
+offset_top = 308.0
+offset_right = 1119.0
+offset_bottom = 388.0
+mouse_default_cursor_shape = 3
+action_mode = 0
+button_mask = 7
+keep_pressed_outside = true
+flat = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="GunGhostB"]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_cbgn8")
+autoplay = "default"
+centered = false
+flip_h = true
+
+[node name="Gun" type="AnimatedSprite2D" parent="GunGhostB/AnimatedSprite2D"]
+position = Vector2(6, -10)
+scale = Vector2(5.33333, 5.33333)
+sprite_frames = SubResource("SpriteFrames_fggmw")
+
+[node name="BulletSpawnPoint" type="Node2D" parent="GunGhostB/AnimatedSprite2D/Gun"]
+position = Vector2(8, 0.125)
 
 [node name="WinScreen" type="Control" parent="."]
 visible = false
@@ -479,6 +591,8 @@ PARTICLES
 
 [connection signal="pressed" from="GhostA" to="." method="_on_ghost_a_pressed"]
 [connection signal="pressed" from="GhostB" to="." method="_on_ghost_b_pressed"]
+[connection signal="pressed" from="GunGhostA" to="." method="_on_ghost_b_pressed"]
+[connection signal="pressed" from="GunGhostB" to="." method="_on_ghost_b_pressed"]
 [connection signal="pressed" from="ButtonController/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="ButtonController/FireA/Button" to="." method="_on_fireA_pressed"]
 [connection signal="pressed" from="ButtonController/FireD/Button" to="." method="_on_fireD_pressed"]

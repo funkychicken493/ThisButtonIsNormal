@@ -1,3 +1,4 @@
 Art is by William (@Barrowak on Discord)
 Monogram font: https://datagoblin.itch.io/monogram
 jsfxr for sounds: https://sfxr.me/
+Simple tiled texture scroll: https://godotshaders.com/shader/simple-tiled-texture-scroll/
