@@ -60,7 +60,12 @@ var prev_level: String = ""
 
 @onready var color_heat_gradient: Gradient = preload("res://color_heat_gradient.tres").gradient
 
+@onready var loading_screen: Control = $Loading
+
 func _ready() -> void:
+	loading_screen.show()
+	loading_screen.mouse_filter = Control.MOUSE_FILTER_STOP
+	
 	fireA.hide()
 	fireB.hide()
 	fireC.hide()
@@ -75,6 +80,53 @@ func _ready() -> void:
 	
 	ghostA.get_child(0).play("default")
 	ghostB.get_child(0).play("default")
+	
+	var particle_load_pos = global_position + Vector2(size.x / 2, size.y / 2)
+	
+	var new_click_particles: GPUParticles2D = click_particles.instantiate()
+	add_child(new_click_particles)
+	new_click_particles.global_position = particle_load_pos
+	new_click_particles.emitting = true
+	new_click_particles.z_index = 101
+	new_click_particles.finished.connect(
+		func ():
+		new_click_particles.queue_free()
+		var new_smoke: GPUParticles2D = fire_extinguish_particles.instantiate()
+		add_child(new_smoke)
+		new_smoke.global_position = global_position + particle_load_pos
+		new_smoke.emitting = true
+		new_smoke.z_index = 101
+		new_smoke.finished.connect(
+			func (): 
+			new_smoke.queue_free()
+			var new_fireworks: GPUParticles2D = ghost_dispel_particles.instantiate()
+			add_child(new_fireworks)
+			new_fireworks.global_position = global_position + particle_load_pos
+			new_fireworks.emitting = true
+			new_fireworks.z_index = 101
+			new_fireworks.finished.connect(
+				func (): 
+				new_fireworks.queue_free()
+				loading_screen.hide()
+				loading_screen.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				)
+			)
+		)
+	var steam_orig_pos = Vector2(button_steam_particles.position)
+	button_steam_particles.position = particle_load_pos
+	button_steam_particles.emitting = true
+	button_steam_particles.z_index = 101
+	var timer = Timer.new()
+	add_child(timer)
+	timer.wait_time = 0.2
+	timer.one_shot = true
+	timer.start()
+	timer.timeout.connect(
+		func ():
+		button_steam_particles.restart()
+		button_steam_particles.emitting = false
+		button_steam_particles.position = steam_orig_pos
+		)
 
 func _on_button_pressed() -> void:
 	

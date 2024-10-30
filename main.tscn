@@ -439,6 +439,44 @@ volume_db = -5.0
 [node name="DeathSoundsPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("15_omqmi")
 
+[node name="Loading" type="Control" parent="."]
+visible = false
+z_index = 100
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="Loading"]
+z_index = -20
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_d3it6")
+stretch_mode = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Loading"]
+z_index = 23
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("3_l442o")
+bbcode_enabled = true
+text = "[center][font_size=200][color=black]LOADING
+PARTICLES
+=)"
+
 [connection signal="pressed" from="GhostA" to="." method="_on_ghost_a_pressed"]
 [connection signal="pressed" from="GhostB" to="." method="_on_ghost_b_pressed"]
 [connection signal="pressed" from="ButtonController/Button" to="." method="_on_button_pressed"]
