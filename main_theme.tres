@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bsyfxb417c82e"]
+
+[ext_resource type="FontFile" uid="uid://kuo4hi5m64iv" path="res://monogram-extended.ttf" id="1_movxi"]
+
+[resource]
+RichTextLabel/font_sizes/normal_font_size = 32
+RichTextLabel/fonts/normal_font = ExtResource("1_movxi")

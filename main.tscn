@@ -1,12 +1,20 @@
-[gd_scene load_steps=21 format=3 uid="uid://c54p8ngl4whpf"]
+[gd_scene load_steps=30 format=3 uid="uid://c54p8ngl4whpf"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_egsob"]
 [ext_resource type="Texture2D" uid="uid://bx17msaqr8814" path="res://MicroJam_10_28_24_button_2.png" id="2_u7j5i"]
 [ext_resource type="Texture2D" uid="uid://bfwwv2vi55qub" path="res://MicroJam_10_28_24_comboBar.png" id="3_ky6if"]
+[ext_resource type="Theme" uid="uid://bsyfxb417c82e" path="res://main_theme.tres" id="3_l442o"]
 [ext_resource type="Texture2D" uid="uid://fyr3xk2t4fv3" path="res://MicroJam_10_28_24_fire.png" id="4_eggph"]
 [ext_resource type="Texture2D" uid="uid://btp5p5iguhxwu" path="res://MicroJam_10_28_24_background.png" id="5_d3it6"]
 [ext_resource type="Texture2D" uid="uid://cvv0nn2fvtvhb" path="res://circle.png" id="6_pyi5h"]
 [ext_resource type="Texture2D" uid="uid://jgsyo5bokbge" path="res://MicroJam_10_28_24_ghost.png" id="6_wpail"]
+[ext_resource type="AudioStream" uid="uid://ceskgs1rlt0ov" path="res://audio/click1.wav" id="9_hnfs1"]
+[ext_resource type="AudioStream" uid="uid://b7pgcoqm0h2c1" path="res://audio/click2.wav" id="10_vccko"]
+[ext_resource type="AudioStream" uid="uid://bpavjtpe2bu5b" path="res://audio/click3.wav" id="11_8t6hn"]
+[ext_resource type="AudioStream" uid="uid://cp7uujg4p33gu" path="res://audio/click4.wav" id="12_p2lc2"]
+[ext_resource type="AudioStream" uid="uid://w0qxqy5a64dc" path="res://audio/explosion.wav" id="13_gji4k"]
+[ext_resource type="AudioStream" uid="uid://bqpk1fmqok57e" path="res://audio/extinguish.wav" id="14_fyuya"]
+[ext_resource type="AudioStream" uid="uid://hegjgy8mmedo" path="res://audio/ghost_jumpscare.wav" id="15_omqmi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2oj0n"]
 atlas = ExtResource("6_wpail")
@@ -27,7 +35,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 4.0
+"speed": 6.0
 }]
 
 [sub_resource type="Theme" id="Theme_ppsp6"]
@@ -92,8 +100,15 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 6.0
+"speed": 8.0
 }]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_bhqm1"]
+streams_count = 4
+stream_0/stream = ExtResource("9_hnfs1")
+stream_1/stream = ExtResource("10_vccko")
+stream_2/stream = ExtResource("11_8t6hn")
+stream_3/stream = ExtResource("12_p2lc2")
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -136,6 +151,18 @@ z_index = 4
 texture = ExtResource("3_ky6if")
 centered = false
 
+[node name="ComboLevel" type="RichTextLabel" parent="ComboMeter"]
+z_index = 3
+layout_mode = 0
+offset_top = 5.0
+offset_right = 438.0
+offset_bottom = 46.0
+mouse_filter = 2
+theme = ExtResource("3_l442o")
+bbcode_enabled = true
+text = "[font_size=50][outline_color=black][outline_size=10][color=red] SAMPLE "
+fit_content = true
+
 [node name="ComboText" type="RichTextLabel" parent="."]
 process_mode = 3
 layout_mode = 1
@@ -147,8 +174,9 @@ offset_top = 75.0
 offset_right = 263.0
 offset_bottom = 144.0
 grow_horizontal = 2
+theme = ExtResource("3_l442o")
 bbcode_enabled = true
-text = "[outline_color=white][outline_size=10][center][font_size=50][color=black]x0"
+text = "[outline_color=white][outline_size=10][center][font_size=100][color=black]x0"
 fit_content = true
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -178,7 +206,7 @@ flat = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="GhostA"]
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_s6vll")
-frame_progress = 0.93687
+frame_progress = 0.819003
 centered = false
 
 [node name="GhostB" type="Button" parent="."]
@@ -195,9 +223,10 @@ keep_pressed_outside = true
 flat = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="GhostB"]
+position = Vector2(-22, -22)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_s6vll")
-frame_progress = 0.0335812
+frame_progress = 0.632187
 centered = false
 flip_h = true
 
@@ -299,8 +328,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 10.0
-offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 3
@@ -357,8 +384,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 10.0
-offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 3
@@ -400,6 +425,19 @@ scale = Vector2(1.563, 1.563)
 sprite_frames = SubResource("SpriteFrames_22pi0")
 frame_progress = 0.711806
 centered = false
+
+[node name="ClickSoundsPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_bhqm1")
+
+[node name="ExplosionSoundsPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_gji4k")
+
+[node name="ExtinguishSoundsPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("14_fyuya")
+volume_db = -5.0
+
+[node name="DeathSoundsPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("15_omqmi")
 
 [connection signal="pressed" from="GhostA" to="." method="_on_ghost_a_pressed"]
 [connection signal="pressed" from="GhostB" to="." method="_on_ghost_b_pressed"]
