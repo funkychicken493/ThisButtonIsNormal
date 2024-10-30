@@ -115,16 +115,17 @@ func _ready() -> void:
 	var steam_orig_pos = Vector2(button_steam_particles.position)
 	button_steam_particles.position = particle_load_pos
 	button_steam_particles.emitting = true
-	button_steam_particles.z_index = 101
+	button_steam_particles.z_index += 101
 	var timer = Timer.new()
 	add_child(timer)
-	timer.wait_time = 0.2
+	timer.wait_time = 1.0
 	timer.one_shot = true
 	timer.start()
 	timer.timeout.connect(
 		func ():
 		button_steam_particles.restart()
 		button_steam_particles.emitting = false
+		button_steam_particles.z_index -= 101
 		button_steam_particles.position = steam_orig_pos
 		)
 
