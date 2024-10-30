@@ -206,7 +206,7 @@ flat = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="GhostA"]
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_s6vll")
-frame_progress = 0.819003
+frame_progress = 0.155868
 centered = false
 
 [node name="GhostB" type="Button" parent="."]
@@ -226,7 +226,7 @@ flat = true
 position = Vector2(-22, -22)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_s6vll")
-frame_progress = 0.632187
+frame_progress = 0.969053
 centered = false
 flip_h = true
 
