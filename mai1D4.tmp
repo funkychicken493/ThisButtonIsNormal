@@ -624,7 +624,6 @@ lifetime = 1.5
 one_shot = true
 explosiveness = 1.0
 fixed_fps = 60
-visibility_rect = Rect2(-100, -100, 1500, 1500)
 
 [node name="GPUParticles2D2" type="GPUParticles2D" parent="Debris"]
 z_index = 100
@@ -636,7 +635,6 @@ lifetime = 1.5
 one_shot = true
 explosiveness = 1.0
 fixed_fps = 60
-visibility_rect = Rect2(-100, -100, 1500, 1500)
 
 [node name="GPUParticles2D3" type="GPUParticles2D" parent="Debris"]
 z_index = 100
@@ -648,7 +646,6 @@ lifetime = 1.5
 one_shot = true
 explosiveness = 1.0
 fixed_fps = 60
-visibility_rect = Rect2(-100, -100, 1500, 1500)
 
 [connection signal="pressed" from="GhostA" to="." method="_on_ghost_a_pressed"]
 [connection signal="pressed" from="GhostB" to="." method="_on_ghost_b_pressed"]

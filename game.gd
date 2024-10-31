@@ -68,6 +68,8 @@ var prev_level: String = ""
 @onready var gunA: Node = $GunGhostA/AnimatedSprite2D/Gun
 @onready var gunB: Node = $GunGhostB/AnimatedSprite2D/Gun
 
+@onready var debris: Node2D = $Debris
+
 func _ready() -> void:
 	
 	fireA.hide()
@@ -161,6 +163,10 @@ func _on_button_pressed() -> void:
 	new_click_particles.emitting = true
 	new_click_particles.finished.connect(func (): new_click_particles.queue_free())
 
+	if round(combo) == 100 or round(combo) == 200 or round(combo) == 300:
+		play_debris_particles()
+		print("HAHAHAHAHAHAH")
+
 	button.release_focus()
 
 var time_since_last_click: float = 0.0
@@ -168,6 +174,8 @@ var time_since_last_click: float = 0.0
 @onready var combo_text_original_pos = Vector2(combo_text.position)
 
 var time_since_new_combo_level_achieved: float = 0.0
+
+var time_since_new_scroll_level_achieved: float = 0.0
 
 func _physics_process(delta: float) -> void:
 	
@@ -198,16 +206,23 @@ func _physics_process(delta: float) -> void:
 		if combo > 50:
 			button_steam_particles.emitting = true
 		else:
+			if !loading_screen.visible:
+				button_steam_particles.emitting = false
+	else:
+		if !loading_screen.visible:
 			button_steam_particles.emitting = false
-	else:
-		button_steam_particles.emitting = false
 	
-	if combo > 0:
-		var scroll = -50
-		scroll -= int(combo / 50.0) * 25
-		scrolling_background.material.set_shader_parameter("motion", Vector2(0, scroll))
-	else:
+	if combo >= 300:
+		scrolling_background.material.set_shader_parameter("motion", Vector2(0, -400))
+	elif combo >= 200:
+		scrolling_background.material.set_shader_parameter("motion", Vector2(0, -200))
+	elif combo >= 100:
+		scrolling_background.material.set_shader_parameter("motion", Vector2(0, -100))
+	elif combo < 100:
 		scrolling_background.material.set_shader_parameter("motion", Vector2(0, 0))
+	
+	scrolling_background.self_modulate.b8 = 255 - combo / 3
+	scrolling_background.self_modulate.g8 = 255 - combo / 3
 	
 	if combo < 50:
 		combo_level_text.text = ""
@@ -296,6 +311,11 @@ func _process(delta: float) -> void:
 		combo_text.text = new_text
 	else:
 		combo_text.text = "[center][font_size=100]"
+
+func play_debris_particles() -> void:
+	for child in debris.get_children():
+		(child as GPUParticles2D).emitting = true
+		print(child)
 
 func spawn_extinguish_particles() -> void:
 	var new_smoke: GPUParticles2D = fire_extinguish_particles.instantiate()
