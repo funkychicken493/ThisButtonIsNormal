@@ -61,6 +61,8 @@ var prev_level: String = ""
 @onready var color_heat_gradient: Gradient = preload("res://color_heat_gradient.tres").gradient
 
 @onready var scrolling_background: TextureRect = $ScrollingBackground
+@onready var scrolling_background_orig_pos: Vector2 = scrolling_background.global_position
+
 @onready var loading_screen: Control = $Loading
 
 @onready var gunGhostA: Node = $GunGhostA
@@ -165,7 +167,7 @@ func _on_button_pressed() -> void:
 
 	if round(combo) == 100 or round(combo) == 200 or round(combo) == 300:
 		play_debris_particles()
-		print("HAHAHAHAHAHAH")
+		time_since_new_scroll_level_achieved = 0.0
 
 	button.release_focus()
 
@@ -175,7 +177,7 @@ var time_since_last_click: float = 0.0
 
 var time_since_new_combo_level_achieved: float = 0.0
 
-var time_since_new_scroll_level_achieved: float = 0.0
+var time_since_new_scroll_level_achieved: float = 10.0
 
 func _physics_process(delta: float) -> void:
 	
@@ -223,6 +225,13 @@ func _physics_process(delta: float) -> void:
 	
 	scrolling_background.self_modulate.b8 = 255 - combo / 3
 	scrolling_background.self_modulate.g8 = 255 - combo / 3
+	
+	time_since_new_scroll_level_achieved += delta
+	if time_since_new_scroll_level_achieved < 5.0:
+		scrolling_background.global_position.x = scrolling_background_orig_pos.x + randf_range((5.0 - time_since_new_scroll_level_achieved) * -3, (5.0 - time_since_new_scroll_level_achieved) * 3)
+		scrolling_background.global_position.y = scrolling_background_orig_pos.y + randf_range((5.0 - time_since_new_scroll_level_achieved) * -3, (5.0 - time_since_new_scroll_level_achieved) * 3)
+	else:
+		scrolling_background.global_position = scrolling_background_orig_pos
 	
 	if combo < 50:
 		combo_level_text.text = ""
