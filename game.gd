@@ -1,4 +1,7 @@
 extends Control
+class_name Game
+
+static var game: Game
 
 @onready var button_controller: Control = $ButtonController
 @onready var button: Button = $ButtonController/Button
@@ -70,9 +73,22 @@ var prev_level: String = ""
 @onready var gunA: Node = $GunGhostA/AnimatedSprite2D/Gun
 @onready var gunB: Node = $GunGhostB/AnimatedSprite2D/Gun
 
+@onready var gunABulletSpawnPos = $GunGhostA/AnimatedSprite2D/Gun/BulletSpawnPoint
+@onready var gunBBulletSpawnPos = $GunGhostB/AnimatedSprite2D/Gun/BulletSpawnPoint
+
+@onready var gunGhostAInitPos: Vector2 = gunGhostA.global_position
+@onready var gunGhostBInitPos: Vector2 = gunGhostB.global_position
+
+@onready var gunGhostALastShot: float = randf_range(3.0, 8.0)
+@onready var gunGhostBLastShot: float = randf_range(3.0, 8.0)
+
 @onready var debris: Node2D = $Debris
 
+@onready var bullet: PackedScene = preload("res://bullet.tscn")
+
 func _ready() -> void:
+	
+	game = self
 	
 	fireA.hide()
 	fireB.hide()
@@ -88,6 +104,9 @@ func _ready() -> void:
 	
 	ghostA.get_child(0).play("default")
 	ghostB.get_child(0).play("default")
+	
+	gunGhostA.global_position = gunGhostAInitPos + Vector2(-200, 0)
+	gunGhostB.global_position = gunGhostBInitPos + Vector2(200, 0)
 	
 	if OS.get_name() == "Web":
 		preload_particles()
@@ -165,9 +184,13 @@ func _on_button_pressed() -> void:
 	new_click_particles.emitting = true
 	new_click_particles.finished.connect(func (): new_click_particles.queue_free())
 
-	if round(combo) == 100 or round(combo) == 200 or round(combo) == 300:
+	if floor(combo) == 100 or floor(combo) == 200 or floor(combo) == 300:
 		play_debris_particles()
 		time_since_new_scroll_level_achieved = 0.0
+	
+	if floor(combo) == 200:
+		gunGhostALastShot = randf_range(3.0, 8.0)
+		gunGhostBLastShot = randf_range(3.0, 8.0)
 
 	button.release_focus()
 
@@ -227,9 +250,9 @@ func _physics_process(delta: float) -> void:
 	scrolling_background.self_modulate.g8 = 255 - combo / 3
 	
 	time_since_new_scroll_level_achieved += delta
-	if time_since_new_scroll_level_achieved < 5.0:
-		scrolling_background.global_position.x = scrolling_background_orig_pos.x + randf_range((5.0 - time_since_new_scroll_level_achieved) * -3, (5.0 - time_since_new_scroll_level_achieved) * 3)
-		scrolling_background.global_position.y = scrolling_background_orig_pos.y + randf_range((5.0 - time_since_new_scroll_level_achieved) * -3, (5.0 - time_since_new_scroll_level_achieved) * 3)
+	if time_since_new_scroll_level_achieved < 3.0:
+		scrolling_background.global_position.x = scrolling_background_orig_pos.x + randf_range((3.0 - time_since_new_scroll_level_achieved) * -2, (3.0 - time_since_new_scroll_level_achieved) * 2)
+		scrolling_background.global_position.y = scrolling_background_orig_pos.y + randf_range((3.0 - time_since_new_scroll_level_achieved) * -2, (3.0 - time_since_new_scroll_level_achieved) * 2)
 	else:
 		scrolling_background.global_position = scrolling_background_orig_pos
 	
@@ -299,6 +322,30 @@ func _physics_process(delta: float) -> void:
 		ghostB.global_position = ghostPosB
 		ghost_jumpscare_sounds_player.play()
 	
+	if combo > 200:
+		gunGhostA.global_position = gunGhostA.global_position.move_toward(gunGhostAInitPos, delta * 150)
+		gunGhostB.global_position = gunGhostB.global_position.move_toward(gunGhostBInitPos, delta * 150)
+	else:
+		gunGhostA.global_position = gunGhostA.global_position.move_toward(gunGhostAInitPos + Vector2(-200, 0), delta * 150)
+		gunGhostB.global_position = gunGhostB.global_position.move_toward(gunGhostBInitPos + Vector2(200, 0), delta * 150)
+	
+	if combo >= 200:
+		gunGhostALastShot -= delta
+		gunGhostBLastShot -= delta
+		
+		if gunGhostALastShot < 0.0:
+			gunGhostALastShot = randf_range(3.0, 8.0)
+			var bullet_instance: Bullet = bullet.instantiate()
+			add_child(bullet_instance)
+			bullet_instance.global_position = gunABulletSpawnPos.global_position
+			bullet_instance.rotation = gunA.rotation
+		if gunGhostBLastShot < 0.0:
+			gunGhostBLastShot = randf_range(3.0, 8.0)
+			var bullet_instance: Bullet = bullet.instantiate()
+			add_child(bullet_instance)
+			bullet_instance.global_position = gunBBulletSpawnPos.global_position
+			bullet_instance.rotation = gunB.rotation
+	
 	gunA.look_at(cursor_pos)
 	gunB.look_at(cursor_pos)
 
@@ -324,7 +371,6 @@ func _process(delta: float) -> void:
 func play_debris_particles() -> void:
 	for child in debris.get_children():
 		(child as GPUParticles2D).emitting = true
-		print(child)
 
 func spawn_extinguish_particles() -> void:
 	var new_smoke: GPUParticles2D = fire_extinguish_particles.instantiate()

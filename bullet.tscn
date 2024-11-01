@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://bj5c0rvff3tad"]
+
+[ext_resource type="Script" path="res://bullet.gd" id="1_cu2iu"]
+[ext_resource type="Texture2D" uid="uid://dtf6r3qtxklpo" path="res://bullet.png" id="2_k76d0"]
+
+[sub_resource type="Curve" id="Curve_l4131"]
+min_value = -1.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.101093, 1), 0.0, 0.0, 0, 0, Vector2(0.265027, 0.00371575), 0.924157, 0.924157, 0, 0, Vector2(0.704918, -0.0747794), 4.1884, 4.1884, 0, 0, Vector2(0.75, 1), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_fua38"]
+curve = SubResource("Curve_l4131")
+
+[node name="Bullet" type="Node2D"]
+script = ExtResource("1_cu2iu")
+movement_curve = SubResource("CurveTexture_fua38")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("2_k76d0")
