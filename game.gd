@@ -161,6 +161,7 @@ func preload_particles() -> void:
 		button_steam_particles.z_index -= 101
 		button_steam_particles.position = steam_orig_pos
 		)
+	play_debris_particles()
 
 func _on_button_pressed() -> void:
 	
@@ -215,7 +216,7 @@ func _physics_process(delta: float) -> void:
 	
 	if combo_fill.size.x > combo_background.size.x:
 		win_screen.show()
-		win_screen.mouse_filter = Control.MOUSE_FILTER_STOP
+		win_screen.get_child(0).mouse_filter = Control.MOUSE_FILTER_STOP
 	
 	#button_color.color.b8 = 255 - combo
 	#button_color.color.g8 = 255 - combo
@@ -329,7 +330,7 @@ func _physics_process(delta: float) -> void:
 		gunGhostA.global_position = gunGhostA.global_position.move_toward(gunGhostAInitPos + Vector2(-200, 0), delta * 150)
 		gunGhostB.global_position = gunGhostB.global_position.move_toward(gunGhostBInitPos + Vector2(200, 0), delta * 150)
 	
-	if combo >= 50:
+	if combo >= 200:
 		gunGhostALastShot -= delta
 		gunGhostBLastShot -= delta
 		

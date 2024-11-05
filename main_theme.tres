@@ -1,7 +1,19 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bsyfxb417c82e"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://bsyfxb417c82e"]
 
 [ext_resource type="FontFile" uid="uid://kuo4hi5m64iv" path="res://monogram-extended.ttf" id="1_movxi"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6fuj8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cikar"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ccqvc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0f1x4"]
+
 [resource]
+Button/styles/focus = SubResource("StyleBoxEmpty_6fuj8")
+Button/styles/hover = SubResource("StyleBoxEmpty_cikar")
+Button/styles/pressed = SubResource("StyleBoxEmpty_ccqvc")
 RichTextLabel/font_sizes/normal_font_size = 32
 RichTextLabel/fonts/normal_font = ExtResource("1_movxi")
+RichTextLabel/styles/focus = SubResource("StyleBoxEmpty_0f1x4")

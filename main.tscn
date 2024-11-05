@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://c54p8ngl4whpf"]
+[gd_scene load_steps=43 format=3 uid="uid://c54p8ngl4whpf"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_egsob"]
 [ext_resource type="Texture2D" uid="uid://bx17msaqr8814" path="res://MicroJam_10_28_24_button_2.png" id="2_u7j5i"]
@@ -96,9 +96,6 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }]
-
-[sub_resource type="Theme" id="Theme_ppsp6"]
-Button/styles/pressed = null
 
 [sub_resource type="Curve" id="Curve_mt5ol"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -279,6 +276,7 @@ offset_top = 700.0
 offset_right = 80.0
 offset_bottom = 780.0
 mouse_default_cursor_shape = 3
+theme = ExtResource("3_l442o")
 action_mode = 0
 button_mask = 7
 keep_pressed_outside = true
@@ -298,6 +296,7 @@ offset_top = 700.0
 offset_right = 1180.0
 offset_bottom = 780.0
 mouse_default_cursor_shape = 3
+theme = ExtResource("3_l442o")
 action_mode = 0
 button_mask = 7
 keep_pressed_outside = true
@@ -317,7 +316,9 @@ offset_left = 47.0
 offset_top = 309.0
 offset_right = 127.0
 offset_bottom = 389.0
-mouse_default_cursor_shape = 3
+mouse_default_cursor_shape = 8
+theme = ExtResource("3_l442o")
+disabled = true
 action_mode = 0
 button_mask = 7
 keep_pressed_outside = true
@@ -344,7 +345,9 @@ offset_left = 1039.0
 offset_top = 308.0
 offset_right = 1119.0
 offset_bottom = 388.0
-mouse_default_cursor_shape = 3
+mouse_default_cursor_shape = 8
+theme = ExtResource("3_l442o")
+disabled = true
 action_mode = 0
 button_mask = 7
 keep_pressed_outside = true
@@ -427,7 +430,7 @@ offset_bottom = 329.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
-theme = SubResource("Theme_ppsp6")
+theme = ExtResource("3_l442o")
 action_mode = 0
 
 [node name="ColorRect" type="ColorRect" parent="ButtonController/Button"]
@@ -467,6 +470,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 3
+theme = ExtResource("3_l442o")
 action_mode = 0
 button_mask = 7
 keep_pressed_outside = true
@@ -495,6 +499,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 3
+theme = ExtResource("3_l442o")
 action_mode = 0
 button_mask = 7
 keep_pressed_outside = true
@@ -523,6 +528,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 3
+theme = ExtResource("3_l442o")
 action_mode = 0
 button_mask = 7
 keep_pressed_outside = true
@@ -551,6 +557,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 3
+theme = ExtResource("3_l442o")
 action_mode = 0
 button_mask = 7
 keep_pressed_outside = true
@@ -653,8 +660,6 @@ visibility_rect = Rect2(-100, -100, 1500, 1500)
 
 [connection signal="pressed" from="GhostA" to="." method="_on_ghost_a_pressed"]
 [connection signal="pressed" from="GhostB" to="." method="_on_ghost_b_pressed"]
-[connection signal="pressed" from="GunGhostA" to="." method="_on_ghost_b_pressed"]
-[connection signal="pressed" from="GunGhostB" to="." method="_on_ghost_b_pressed"]
 [connection signal="pressed" from="ButtonController/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="ButtonController/FireA/Button" to="." method="_on_fireA_pressed"]
 [connection signal="pressed" from="ButtonController/FireD/Button" to="." method="_on_fireD_pressed"]
