@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bj7m7v52uuj8" path="res://MicroJam_10_28_24_ghost2.png" id="5_y3jp6"]
 [ext_resource type="Texture2D" uid="uid://cvv0nn2fvtvhb" path="res://circle.png" id="6_pyi5h"]
 [ext_resource type="Texture2D" uid="uid://jgsyo5bokbge" path="res://MicroJam_10_28_24_ghost.png" id="6_wpail"]
-[ext_resource type="Texture2D" uid="uid://dkuqg55l0jkdt" path="res://gunplaceholder.png" id="7_66f52"]
+[ext_resource type="Texture2D" uid="uid://ru0lyebljx52" path="res://ThisButtonIsNormal_gun1_static.png" id="8_mkrjv"]
 [ext_resource type="AudioStream" uid="uid://ceskgs1rlt0ov" path="res://audio/click1.wav" id="9_hnfs1"]
 [ext_resource type="AudioStream" uid="uid://b7pgcoqm0h2c1" path="res://audio/click2.wav" id="10_vccko"]
 [ext_resource type="AudioStream" uid="uid://bpavjtpe2bu5b" path="res://audio/click3.wav" id="11_8t6hn"]
@@ -90,7 +90,7 @@ animations = [{
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("7_66f52")
+"texture": ExtResource("8_mkrjv")
 }],
 "loop": true,
 "name": &"default",
@@ -330,12 +330,12 @@ autoplay = "default"
 centered = false
 
 [node name="Gun" type="AnimatedSprite2D" parent="GunGhostA/AnimatedSprite2D"]
-position = Vector2(44, -10)
-scale = Vector2(5.33333, 5.33333)
+position = Vector2(35.3333, -19.3333)
+scale = Vector2(0.7, 0.7)
 sprite_frames = SubResource("SpriteFrames_fggmw")
 
 [node name="BulletSpawnPoint" type="Node2D" parent="GunGhostA/AnimatedSprite2D/Gun"]
-position = Vector2(8, 0.125)
+position = Vector2(63.8095, -10.4762)
 
 [node name="GunGhostB" type="Button" parent="."]
 z_index = 5
@@ -358,12 +358,13 @@ centered = false
 flip_h = true
 
 [node name="Gun" type="AnimatedSprite2D" parent="GunGhostB/AnimatedSprite2D"]
-position = Vector2(6, -10)
-scale = Vector2(5.33333, 5.33333)
+position = Vector2(15.3333, -19.3333)
+scale = Vector2(0.7, 0.7)
 sprite_frames = SubResource("SpriteFrames_fggmw")
+flip_v = true
 
 [node name="BulletSpawnPoint" type="Node2D" parent="GunGhostB/AnimatedSprite2D/Gun"]
-position = Vector2(8, 0.125)
+position = Vector2(63.8095, 12.3809)
 
 [node name="WinScreen" type="Control" parent="."]
 visible = false

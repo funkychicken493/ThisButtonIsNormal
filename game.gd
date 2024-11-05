@@ -322,14 +322,14 @@ func _physics_process(delta: float) -> void:
 		ghostB.global_position = ghostPosB
 		ghost_jumpscare_sounds_player.play()
 	
-	if combo > 200:
+	if combo > 50:
 		gunGhostA.global_position = gunGhostA.global_position.move_toward(gunGhostAInitPos, delta * 150)
 		gunGhostB.global_position = gunGhostB.global_position.move_toward(gunGhostBInitPos, delta * 150)
 	else:
 		gunGhostA.global_position = gunGhostA.global_position.move_toward(gunGhostAInitPos + Vector2(-200, 0), delta * 150)
 		gunGhostB.global_position = gunGhostB.global_position.move_toward(gunGhostBInitPos + Vector2(200, 0), delta * 150)
 	
-	if combo >= 200:
+	if combo >= 50:
 		gunGhostALastShot -= delta
 		gunGhostBLastShot -= delta
 		
