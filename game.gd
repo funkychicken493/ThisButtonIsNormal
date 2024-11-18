@@ -60,6 +60,8 @@ var prev_level: String = ""
 @onready var explosion_sounds_player: AudioStreamPlayer2D = $ExplosionSoundsPlayer
 @onready var extinguish_sounds_player: AudioStreamPlayer2D = $ExtinguishSoundsPlayer
 @onready var ghost_jumpscare_sounds_player: AudioStreamPlayer2D = $DeathSoundsPlayer
+@onready var debris_sounds_player: AudioStreamPlayer2D = $DebrisSoundsPlayer
+@onready var shoot_sounds_player: AudioStreamPlayer2D = $ShootSoundsPlayer
 
 @onready var color_heat_gradient: Gradient = preload("res://color_heat_gradient.tres").gradient
 
@@ -187,6 +189,7 @@ func _on_button_pressed() -> void:
 
 	if floor(combo) == 100 or floor(combo) == 200 or floor(combo) == 300:
 		play_debris_particles()
+		debris_sounds_player.play()
 		time_since_new_scroll_level_achieved = 0.0
 	
 	if floor(combo) == 200:
@@ -323,7 +326,7 @@ func _physics_process(delta: float) -> void:
 		ghostB.global_position = ghostPosB
 		ghost_jumpscare_sounds_player.play()
 	
-	if combo > 50:
+	if combo > 200:
 		gunGhostA.global_position = gunGhostA.global_position.move_toward(gunGhostAInitPos, delta * 150)
 		gunGhostB.global_position = gunGhostB.global_position.move_toward(gunGhostBInitPos, delta * 150)
 	else:
@@ -340,12 +343,16 @@ func _physics_process(delta: float) -> void:
 			add_child(bullet_instance)
 			bullet_instance.global_position = gunABulletSpawnPos.global_position
 			bullet_instance.rotation = gunA.rotation
+			shoot_sounds_player.pitch_scale = randf_range(0.8, 1.2)
+			shoot_sounds_player.play()
 		if gunGhostBLastShot < 0.0:
 			gunGhostBLastShot = randf_range(3.0, 8.0)
 			var bullet_instance: Bullet = bullet.instantiate()
 			add_child(bullet_instance)
 			bullet_instance.global_position = gunBBulletSpawnPos.global_position
 			bullet_instance.rotation = gunB.rotation
+			shoot_sounds_player.pitch_scale = randf_range(0.8, 1.2)
+			shoot_sounds_player.play()
 	
 	gunA.look_at(cursor_pos)
 	gunB.look_at(cursor_pos)

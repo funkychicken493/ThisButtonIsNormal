@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://c54p8ngl4whpf"]
+[gd_scene load_steps=45 format=3 uid="uid://c54p8ngl4whpf"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_egsob"]
 [ext_resource type="Texture2D" uid="uid://bx17msaqr8814" path="res://MicroJam_10_28_24_button_2.png" id="2_u7j5i"]
@@ -19,7 +19,9 @@
 [ext_resource type="AudioStream" uid="uid://bqpk1fmqok57e" path="res://audio/extinguish.wav" id="14_fyuya"]
 [ext_resource type="AudioStream" uid="uid://hegjgy8mmedo" path="res://audio/ghost_jumpscare.wav" id="15_omqmi"]
 [ext_resource type="Texture2D" uid="uid://cn3gi6j1skwmj" path="res://brick.png" id="19_demly"]
+[ext_resource type="AudioStream" uid="uid://dps4fi2y5a4pf" path="res://audio/debris.wav" id="19_qwam7"]
 [ext_resource type="Texture2D" uid="uid://cb2wplghyga0p" path="res://bottle.png" id="20_3chix"]
+[ext_resource type="AudioStream" uid="uid://xtcsl5l58h30" path="res://audio/shoot.wav" id="20_67555"]
 [ext_resource type="Texture2D" uid="uid://deh4ea1yglnmv" path="res://broken_bottle.png" id="21_1b227"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vb3wc"]
@@ -581,6 +583,15 @@ volume_db = -5.0
 
 [node name="DeathSoundsPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("15_omqmi")
+
+[node name="DebrisSoundsPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("19_qwam7")
+volume_db = -0.613
+pitch_scale = 0.51
+
+[node name="ShootSoundsPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("20_67555")
+volume_db = 8.93
 
 [node name="Loading" type="Control" parent="."]
 visible = false
